@@ -1,0 +1,27 @@
+{
+  "name": "smart-contract-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "save": "^2.4.0",
+    "solc": "^0.8.7-fixed"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrescrd/smart-contract-test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andrescrd/smart-contract-test/issues"
+  },
+  "homepage": "https://github.com/andrescrd/smart-contract-test#readme"
+}
