@@ -26,9 +26,9 @@ contract Market is Ownable {
     event ProductPurchased(address indexed customer, uint price);
 
     constructor(){
-        products.push(Product("Test", 0.5 ether));
-        products.push(Product("Test 2", 0.1 ether));
-        products.push(Product("Test 3", 0.01 ether));
+        products.push(Product("Test", 5 ether));
+        products.push(Product("Test 2", 4 ether));
+        products.push(Product("Test 3", 4 ether));
     }
     
     function setEtherPerPoint(uint newEtherPerPoint) external onlyOwner {

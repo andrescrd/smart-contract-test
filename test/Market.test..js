@@ -52,4 +52,22 @@ contract('Market', (accounts) => {
 
     assert.equal(Number(balance), (Number(price1) + Number(price2)));
   });
+
+  it('should allow customer redeem loyalty points', async () => {
+    const instance = await Market.new();
+    const product = await instance.products(1);
+    const price = product[1];
+
+    await instance.buyProduct(1, { from: accounts[0], value: price });
+
+    const balance = await web3.eth.getBalance(accounts[0]);
+    await instance.reedemLoyaltyPoint();    
+    const newBalance = await web3.eth.getBalance(accounts[0]);
+
+    const customer = await instance.customers(accounts[0]);
+    const customerLPoint = customer[0];
+    
+    assert(customerLPoint, 0);
+    assert(Number(balance) < Number(newBalance));
+  });
 });
