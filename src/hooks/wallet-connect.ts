@@ -4,11 +4,11 @@ const CONNECTED = "😆 Connected";
 const MUST_INSTALL_METAMASK = "You must install Metamask, a virtual Ethereum wallet, in your browser";
 const CONNECT_METAMASK = "🦊 Connect to Metamask using the top right button.";
 
-const connectWallet = async () => {
+async function connectRequest(request: "eth_requestAccounts" | "eth_accounts") {
     if (window.ethereum) {
         try {
             const addressArray = await window.ethereum.request({
-                method: "eth_requestAccounts",
+                method: request,
             });
 
             const obj = {
@@ -29,37 +29,23 @@ const connectWallet = async () => {
             status: MUST_INSTALL_METAMASK
         };
     }
-};
+}
 
 const useWalletConnection = () => {
     const [walletAddress, setWalletAddress] = useState("");
     const [walletStatus, setWalletStatus] = useState("");
 
-    const configureWallet = async () => {
-        if (window.ethereum) {
-            try {
-                const addressArray = await window.ethereum.request({
-                    method: "eth_accounts",
-                });
+    const connectWallet = async () => {
+        return connectRequest("eth_requestAccounts");
+    };
 
-                if (addressArray.length > 0) {
-                    setWalletAddress(addressArray[0]);
-                    setWalletStatus(CONNECTED);
-                } else {
-                    setWalletAddress("");
-                    setWalletStatus(CONNECT_METAMASK);
-                }
-            } catch (err) {
-                setWalletAddress("");
-                setWalletStatus("😥 " + (err as Error).message);
-            }
-        } else {
-            setWalletAddress("");
-            setWalletStatus(MUST_INSTALL_METAMASK);
-        }
+    const configureWallet = async () => {
+        const { address, status } = await connectRequest("eth_accounts");
+        setWalletAddress(address);
+        setWalletStatus(status);
     }
 
-    const walletChange = () => {
+    const onWalletChange = () => {
         if (window.ethereum) {
             window.ethereum.on("accountsChanged", (addressArray: any[]) => {
                 if (addressArray.length > 0) {
@@ -78,10 +64,11 @@ const useWalletConnection = () => {
 
     useEffect(() => {
         configureWallet();
-        walletChange();
+        onWalletChange();
     }, []);
 
-    return { walletAddress, walletStatus };
+    return { walletAddress, walletStatus, connectWallet };
 };
 
-export { connectWallet, useWalletConnection };
+export default useWalletConnection;
+
