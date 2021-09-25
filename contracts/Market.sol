@@ -2,8 +2,9 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 import "./AccessControl.sol";
+import "./Ownable.sol";
 
-contract Market is AccessControl {
+contract Market is Ownable {
 
     struct Customer {
         uint loyaltyPoint;
@@ -30,7 +31,7 @@ contract Market is AccessControl {
         products.push(Product("Test 3", 0.01 ether));
     }
     
-    function setEtherPerPoint(uint newEtherPerPoint) external onlyCLevel {
+    function setEtherPerPoint(uint newEtherPerPoint) external onlyOwner {
         etherPerPoint = newEtherPerPoint;
     }
 
@@ -58,7 +59,7 @@ contract Market is AccessControl {
         customer.loyaltyPoint = 0;
     }
 
-    function getCompanyBalance() view public onlyCLevel returns (uint) {
+    function getMarketBalance() view public onlyOwner returns (uint) {
         return address(this).balance;
     }
 

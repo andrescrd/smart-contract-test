@@ -36,4 +36,20 @@ contract('Market', (accounts) => {
 
     assert.fail();
   });
+
+  it('should get balance', async () => {
+    const instance = await Market.new();
+    const product = await instance.products(0);
+    const price1 = product[1];
+
+    const product2 = await instance.products(1);
+    const price2 = product2[1];
+
+    await instance.buyProduct(0, { from: accounts[0], value: price1 });
+    await instance.buyProduct(1, { from: accounts[0], value: price2 });
+
+    const balance = await instance.getMarketBalance();
+
+    assert.equal(Number(balance), (Number(price1) + Number(price2)));
+  });
 });
