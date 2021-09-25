@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { connectWallet, useWalletConnection } from "../../utils/connect-wallet";
+import { connectWallet, useWalletConnection } from "../../hooks/wallet-connect";
 
 const Header: React.FC<{}> = () => {
 
@@ -21,6 +21,7 @@ const Header: React.FC<{}> = () => {
 
     return (
         <div>
+            <h1>🧙‍♂️ Test</h1>
             <button onClick={connectWalletPressed}>
                 {wallet.length > 0 ? (
                     "Connected: " +
@@ -32,7 +33,6 @@ const Header: React.FC<{}> = () => {
                 )}
             </button>
             <br></br>
-            <h1>🧙‍♂️ Test</h1>
             <p >
                 {status}
             </p>
