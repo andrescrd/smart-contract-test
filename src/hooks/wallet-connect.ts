@@ -4,7 +4,7 @@ const CONNECTED = "😆 Connected";
 const MUST_INSTALL_METAMASK = "You must install Metamask, a virtual Ethereum wallet, in your browser";
 const CONNECT_METAMASK = "🦊 Connect to Metamask using the top right button.";
 
-async function connectRequest(request: "eth_requestAccounts" | "eth_accounts") {
+async function requestConnection(request: "eth_requestAccounts" | "eth_accounts") {
     if (window.ethereum) {
         try {
             const addressArray = await window.ethereum.request({
@@ -34,11 +34,11 @@ const useWalletConnection = () => {
     const [walletStatus, setWalletStatus] = useState("");
 
     const connectWallet = async () => {
-        return connectRequest("eth_requestAccounts");
+        return requestConnection("eth_requestAccounts");
     };
 
     const configureWallet = async () => {
-        const { address, status } = await connectRequest("eth_accounts");
+        const { address, status } = await requestConnection("eth_accounts");
         setWalletAddress(address);
         setWalletStatus(status);
     }
