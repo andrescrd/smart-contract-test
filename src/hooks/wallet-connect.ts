@@ -11,12 +11,10 @@ async function connectRequest(request: "eth_requestAccounts" | "eth_accounts") {
                 method: request,
             });
 
-            const obj = {
+            return {
                 status: CONNECTED,
                 address: addressArray[0],
             };
-
-            return obj;
         } catch (err) {
             return {
                 address: "",
