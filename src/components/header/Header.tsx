@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react"
-import connectWallet from "../../utils/connect-wallet";
+import { connectWallet, useWalletConnection } from "../../utils/connect-wallet";
+
 const Header: React.FC<{}> = () => {
 
-    const [walletAddress, setWallet] = useState("");
+    const [wallet, setWallet] = useState("");
     const [status, setStatus] = useState("");
+
+    const { walletAddress, walletStatus } = useWalletConnection();
 
     const connectWalletPressed = async () => {
         var { address, status } = await connectWallet();
@@ -12,17 +15,18 @@ const Header: React.FC<{}> = () => {
     }
 
     useEffect(() => {
-
-    }, []);
+        setWallet(walletAddress);
+        setStatus(walletStatus);
+    }, [walletAddress, walletStatus])
 
     return (
         <div>
             <button onClick={connectWalletPressed}>
-                {walletAddress.length > 0 ? (
+                {wallet.length > 0 ? (
                     "Connected: " +
-                    String(walletAddress).substring(0, 6) +
+                    String(wallet).substring(0, 6) +
                     "..." +
-                    String(walletAddress).substring(38)
+                    String(wallet).substring(38)
                 ) : (
                     <span>Connect Wallet</span>
                 )}
