@@ -2,8 +2,12 @@ import MarketContractJSON from '../../contracts/Market.json';
 import * as TruffleContract from 'truffle-contract';
 
 export interface IMarketContract {
-    products: (index: number) => Promise<[string,number]>;
-    totalProducts:  () => Promise<number>;
+    products: (index: number) => Promise<[string, number]>;
+    totalProducts: () => Promise<number>;
+    buyProduct: (index: number, data: { from: string, value: number }) => Promise<void>;
+
+    customerProduct: (address: string, index: number) => Promise<[string, number]>;
+    customerTotalProducts: (address: string) => Promise<number>;
 }
 
 const MarketContract = async (provider: any) => {

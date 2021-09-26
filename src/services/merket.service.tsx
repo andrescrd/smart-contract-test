@@ -18,7 +18,11 @@ const MarketService = (contract: IMarketContract) => {
         return products;
     }
 
-    return { getTotlaProducts, getProducts };
+    const buyProduct = async (index: number, account: string, price: number) => {
+        await contract.buyProduct(index, { from: account, value: price });
+    }
+
+    return { getTotlaProducts, getProducts, buyProduct };
 }
 
 export default MarketService;

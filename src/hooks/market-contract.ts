@@ -20,12 +20,17 @@ const useMarketContract = () => {
         setProducts(products);
     }
 
+    const buyProduct = async (index: number, account: string, price: number) => {
+        const service = MarketService(await MarketContract(window.ethereum));
+        await service.buyProduct(index, account, price);
+    }
+
     useEffect(() => {
         loadTotal();
         loadProducts();
     }, [])
 
-    return { total, products };
+    return { total, products, buyProduct };
 }
 
 export default useMarketContract;
