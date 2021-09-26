@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import useWeb3 from "../hooks/web3";
+
 const Balance: React.FC<{ walletAddress: string }> = ({ walletAddress }) => {
     const [balance, setBalance] = useState('');
-    const [address] = useState(walletAddress);
 
     const { web3 } = useWeb3();
 
@@ -17,12 +17,12 @@ const Balance: React.FC<{ walletAddress: string }> = ({ walletAddress }) => {
     };
 
     useEffect(() => {
-        getBalance(address);
-    });
+        getBalance(walletAddress);
+    }, [walletAddress]);
 
     return (
         <>
-            <p><strong>{address}</strong></p>
+            <p><strong>{walletAddress}</strong></p>
             <span><strong>Balance: </strong>{balance}</span>
         </>
     )
