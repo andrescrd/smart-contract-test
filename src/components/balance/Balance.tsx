@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
-import useWeb3 from "../hooks/web3";
+import useWeb3 from "../../hooks/web3";
 
 const Balance: React.FC<{ walletAddress: string }> = ({ walletAddress }) => {
     const [balance, setBalance] = useState('');
 
-    const { web3 } = useWeb3();
+    const { web3, loaded } = useWeb3();
 
     const getBalance = async (currentAddress: string) => {
         try {
-            const weiBalance = await web3?.eth.getBalance(currentAddress);
-            const balanceEth = weiBalance ? web3?.utils.fromWei(weiBalance.toString(), 'ether')! : '';
-            setBalance(balanceEth);
+            if (web3) {
+                const weiBalance = await web3.eth.getBalance(currentAddress);
+                const balanceEth = weiBalance ? web3?.utils.fromWei(weiBalance.toString(), 'ether')! : '';
+                setBalance(balanceEth);
+            }
         } catch (error) {
             setBalance('');
         }
@@ -18,7 +20,7 @@ const Balance: React.FC<{ walletAddress: string }> = ({ walletAddress }) => {
 
     useEffect(() => {
         getBalance(walletAddress);
-    }, [walletAddress]);
+    }, [walletAddress, loaded]);
 
     return (
         <>

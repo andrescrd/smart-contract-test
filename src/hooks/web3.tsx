@@ -13,7 +13,7 @@ const useWeb3 = () => {
         }
     }, [loaded]);
 
-    return { web3 }
+    return {web3, loaded};
 };
 
 export default useWeb3;
