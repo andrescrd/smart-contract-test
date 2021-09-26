@@ -7,7 +7,6 @@ const Main = () => {
 
 
     useEffect(()=>{
-
         MarketContract(window.ethereum).then(market=>{
             console.log(market);
         }).catch(e=>alert(e));
