@@ -1,21 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
-import WalletContext from "../../store/wallet.context";
+import React from "react";
 
-const Header: React.FC<{}> = () => {
-
-    const [wallet, setWallet] = useState("");
-    const [status, setStatus] = useState("");
-
-    const { walletAddress, walletStatus, connect } = useContext(WalletContext);
+const Header: React.FC<{ wallet: any, status: string, onConnect: () => void }> = ({ wallet, status, onConnect }) => {
 
     const connectWalletPressed = async () => {
-        connect();
+        onConnect();
     }
-
-    useEffect(() => {
-        setWallet(walletAddress);
-        setStatus(walletStatus);
-    }, [walletAddress, walletStatus])
 
     return (
         <div>
