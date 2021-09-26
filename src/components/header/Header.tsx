@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react"
-import useWalletConnection from "../../hooks/wallet-connect";
+import React, { useContext, useEffect, useState } from "react";
+import WalletContext from "../../store/wallet.context";
 
 const Header: React.FC<{}> = () => {
 
     const [wallet, setWallet] = useState("");
     const [status, setStatus] = useState("");
 
-    const { walletAddress, walletStatus, connectWallet } = useWalletConnection();
+    const { walletAddress, walletStatus, connect } = useContext(WalletContext);
 
     const connectWalletPressed = async () => {
-        var { address, status } = await connectWallet();
-        setWallet(address);
-        setStatus(status);
+        connect();
     }
 
     useEffect(() => {
