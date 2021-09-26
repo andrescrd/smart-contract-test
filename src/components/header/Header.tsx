@@ -23,7 +23,7 @@ const Header: React.FC<{}> = () => {
         <div>
             <h1>🧙‍♂️ Test</h1>
             <button onClick={connectWalletPressed}>
-                {wallet.length > 0 ? (
+                {wallet?.length > 0 ? (
                     "Connected: " +
                     String(wallet).substring(0, 6) +
                     "..." +

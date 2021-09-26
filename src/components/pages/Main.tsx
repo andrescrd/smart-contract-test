@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import MarketContract from '../contracts/MarketContract';
 import Header from '../header/Header';
 import Panel from "../panel/Panel";
 
 const Main = () => {
+
+
+    useEffect(()=>{
+
+        MarketContract(window.ethereum).then(market=>{
+            console.log(market);
+        }).catch(e=>alert(e));
+    }, []);
+
     return (<>
         <Header></Header>
         <br />

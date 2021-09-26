@@ -11,10 +11,12 @@ async function requestConnection(request: "eth_requestAccounts" | "eth_accounts"
                 method: request,
             });
 
-            return {
-                status: CONNECTED,
+            let obj = {
                 address: addressArray[0],
+                status: addressArray[0] ? CONNECTED : CONNECT_METAMASK
             };
+
+            return obj;
         } catch (err) {
             return {
                 address: "",

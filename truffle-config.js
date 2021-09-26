@@ -23,6 +23,8 @@
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
+const path = require("path");
+
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -92,6 +94,7 @@ module.exports = {
       // }
     }
   },
+  contracts_build_directory: path.join(__dirname, "./src/contracts"),
 
   // Truffle DB is currently disabled by default; to enable it, change enabled:
   // false to enabled: true. The default storage location can also be
@@ -114,3 +117,4 @@ module.exports = {
   // }
   // }
 };
+
