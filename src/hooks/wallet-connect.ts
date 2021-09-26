@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Web3 from "web3";
 
 const CONNECTED = "😆 Connected";
 const MUST_INSTALL_METAMASK = "You must install Metamask, a virtual Ethereum wallet, in your browser";

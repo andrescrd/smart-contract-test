@@ -8,18 +8,17 @@ const MarketService = (contract: IMarketContract) => {
 
     const getProducts = async () => {
         const total = await getTotlaProducts();
-        const products = [];
+        let products: Array<{ name: string, price: number }> = [];
 
         for (let index = 0; index < total; index++) {
-            const x= await contract.products(index);
-            console.log(x)
-            // products.push({ name, price: Number(price) });
+            const product = await contract.products(index);
+            products = [...products, { name: product[0], price: parseFloat(product[1].toString()) }]
         }
 
-        return [];
+        return products;
     }
 
-    return {getTotlaProducts, getProducts};
+    return { getTotlaProducts, getProducts };
 }
 
 export default MarketService;
