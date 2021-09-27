@@ -40,7 +40,7 @@ contract Market is Ownable {
         require(msg.value == product.price);
 
         Customer storage customer = customers[msg.sender];
-        customer.loyaltyPoint += 5;
+        customer.loyaltyPoint += 1;
         customer.totalItems += 1;
         customerProducts[msg.sender].push(product);
         customerTotalProducts[msg.sender]++;
