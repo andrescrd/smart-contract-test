@@ -1,3 +1,4 @@
+import { Button, Chip, Divider, Stack } from "@material-ui/core";
 import React, { useContext } from "react";
 import useMarketContract from "../../hooks/market-contract";
 import useWeb3 from "../../hooks/web3";
@@ -14,8 +15,8 @@ const Reedem: React.FC = () => {
 
     return (
         <>
-            <h3>{convertToEth(reedemEth)} ETH </h3>
-            <button onClick={reedemLoyaltyPointHandler}>Reedem</button>
+            <h3>{`${convertToEth(reedemEth)} ETH`} </h3>                        
+            <Button variant="outlined" onClick={reedemLoyaltyPointHandler}>Reedem</Button>
         </>
     )
 }

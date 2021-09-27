@@ -1,3 +1,4 @@
+import { Button, Divider, List, ListItem, ListItemButton, ListItemText, ListSubheader } from "@material-ui/core";
 import React, { useContext } from "react";
 import useMarketContract from "../../hooks/market-contract";
 import useWeb3 from "../../hooks/web3";
@@ -15,15 +16,13 @@ const ProductList: React.FC = () => {
 
     return (
         <>
-            <h3>Total: {total}</h3>
-            <div>
+            <List>
                 {products.map((product, index) =>
-                    <div key={index}>
-                        <span>{product.name} - Cost: {convertToEth(product.price)} </span>
-                        <button onClick={() => buyProductHandler(index, product)}>Buy</button>
-                    </div>)}
-
-            </div>
+                    <ListItem key={index}>
+                        <ListItemText primary={product.name} secondary={`Cost: ${convertToEth(product.price)}`} />
+                        <Button variant="outlined" onClick={() => buyProductHandler(index, product)}>BUY</Button>
+                    </ListItem>)}
+            </List>
         </>
     )
 }

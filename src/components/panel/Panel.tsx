@@ -1,11 +1,14 @@
+import { Card, CardContent, CardHeader } from "@material-ui/core";
 import React from "react";
 
 const Panel: React.FC<{ title: string }> = ({ title, children }) => {
     return (
-        <div>
-            <h1>{title}</h1>
-            {children}
-        </div>
+        <Card>
+            <CardHeader title={title} />
+            <CardContent>
+                {children}
+            </CardContent>
+        </Card>
     );
 };
 
