@@ -1,8 +1,20 @@
 import { IMarketContract } from "../components/contracts/MarketContract";
 
-const MarketService = (contract: IMarketContract) => {
+const MarketService = (truffleContract: IMarketContract) => {
+    const productPurchasedEvent = (): Promise<[string, string]> => {
+        return new Promise((resolve, rejected) => {
+            truffleContract.contract.events.ProductPurchased(null, (err: any, event: { returnValues: [string, string]; }) => {
+                if (err) {
+                    rejected(err);
+                } else {
+                    resolve(event.returnValues);
+                }
+            });
+        });
+    }
+
     const getTotlaProducts = async () => {
-        const total = await contract.totalProducts();
+        const total = await truffleContract.totalProducts();
         return parseInt(total.toString());
     }
 
@@ -11,7 +23,7 @@ const MarketService = (contract: IMarketContract) => {
         let products: Array<{ name: string, price: number }> = [];
 
         for (let index = 0; index < total; index++) {
-            const product = await contract.products(index);
+            const product = await truffleContract.products(index);
             products = [...products, { name: product[0], price: parseFloat(product[1].toString()) }]
         }
 
@@ -19,15 +31,15 @@ const MarketService = (contract: IMarketContract) => {
     }
 
     const reedemLoyaltyPoint = async (account: string) => {
-        await contract.reedemLoyaltyPoint({from: account});
+        await truffleContract.reedemLoyaltyPoint({ from: account });
     }
 
     const buyProduct = async (index: number, account: string, price: number) => {
-        await contract.buyProduct(index, { from: account, value: price });
+        await truffleContract.buyProduct(index, { from: account, value: price });
     }
 
     const getRefundableEther = async (account: string) => {
-        const total = await contract.getRefundableEther({from: account});
+        const total = await truffleContract.getRefundableEther({ from: account });
         return parseFloat(total.toString());
     }
 
@@ -36,7 +48,7 @@ const MarketService = (contract: IMarketContract) => {
         let products: Array<{ name: string, price: number }> = [];
 
         for (let index = 0; index < total; index++) {
-            const product = await contract.customerProducts(account, index);
+            const product = await truffleContract.customerProducts(account, index);
             products = [...products, { name: product[0], price: parseFloat(product[1].toString()) }]
         }
 
@@ -44,11 +56,14 @@ const MarketService = (contract: IMarketContract) => {
     }
 
     const getCustomerTotalProducts = async (account: string) => {
-        const total = await contract.customerTotalProducts(account);
+        const total = await truffleContract.customerTotalProducts(account);
         return parseInt(total.toString());
     }
 
-    return { getTotlaProducts, getProducts, buyProduct, getCustomerTotalProducts, getCustomerProduct, getRefundableEther, reedemLoyaltyPoint };
+    return {
+        getTotlaProducts, getProducts, buyProduct, getCustomerTotalProducts,
+        getCustomerProduct, getRefundableEther, reedemLoyaltyPoint, productPurchasedEvent
+    };
 }
 
 export default MarketService;

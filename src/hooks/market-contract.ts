@@ -10,6 +10,11 @@ const useMarketContract = (account?: string) => {
     const [products, setProducts] = useState<Array<Product>>([]);
     const [customerProducts, setCustomerProduct] = useState<Array<Product>>([]);
 
+    const loadWihtAccount = (account: string) => {
+        loadCustomerProduct(account);
+        loadRefundableEther(account);
+    }
+
     const loadTotal = async () => {
         const service = MarketService(await MarketContract(window.ethereum));
         const total = await service.getTotlaProducts();
@@ -25,11 +30,14 @@ const useMarketContract = (account?: string) => {
     const buyProduct = async (index: number, account: string, price: number) => {
         const service = MarketService(await MarketContract(window.ethereum));
         await service.buyProduct(index, account, price);
+        await service.productPurchasedEvent().then(() => loadWihtAccount(account));
     }
 
     const reedemLoyaltyPoint = async (account: string) => {
         const service = MarketService(await MarketContract(window.ethereum));
         await service.reedemLoyaltyPoint(account);
+
+        loadWihtAccount(account);
     }
 
     const loadCustomerProduct = async (account: string) => {
@@ -51,8 +59,7 @@ const useMarketContract = (account?: string) => {
 
     useEffect(() => {
         if (account) {
-            loadCustomerProduct(account);
-            loadRefundableEther(account);
+            loadWihtAccount(account);
         }
     }, [account])
 

@@ -7,8 +7,8 @@ const ProductList: React.FC<{walletAddress: string}> = ({walletAddress}) => {
     const { convertToEth } = useWeb3();
     const { products, buyProduct } = useMarketContract();
 
-    const buyProductHandler = (index: number, product: { price: number; }) => {
-        buyProduct(index, walletAddress, product.price)
+    const buyProductHandler = async (index: number, product: { price: number; }) => {
+        await buyProduct(index, walletAddress, product.price);   
     }
 
     return (
