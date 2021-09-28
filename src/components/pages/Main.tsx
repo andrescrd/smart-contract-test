@@ -1,4 +1,4 @@
-import { List, ListItem, makeStyles, Stack } from '@material-ui/core';
+import { Grid, Stack } from '@material-ui/core';
 import React, { useContext } from 'react';
 import useMarketContract from '../../hooks/market-contract';
 import WalletContext from '../../store/wallet.context';
@@ -9,8 +9,6 @@ import Panel from "../panel/Panel";
 import ProductList from '../products/ProductList';
 import Reedem from '../redeem/Reedem';
 
-
-
 const Main: React.FC<{}> = () => {
     const { walletAddress, walletStatus, connect } = useContext(WalletContext);
     const { total } = useMarketContract();
@@ -19,21 +17,28 @@ const Main: React.FC<{}> = () => {
         <>
             <Header wallet={walletAddress} status={walletStatus} onConnect={connect}></Header>
 
-            <Stack spacing={1}>
-                <Panel title="Balance" >
-                    {walletAddress && <Balance walletAddress={walletAddress}></Balance>}
-                </Panel>
-                <Panel title={`Products (${total})`}>
-                    <ProductList></ProductList>
-                </Panel>
-
-                <Panel title="Customer">
-                    <CustomerProductList></CustomerProductList>
-                </Panel>
-                <Panel title="Reedem">
-                    <Reedem></Reedem>
-                </Panel>
-            </Stack>
+            <Grid container spacing={2} marginTop={10}>
+                <Grid item xs={9}>
+                    {walletAddress && <Panel title="Balance" >
+                        <Balance walletAddress={walletAddress}></Balance>
+                    </Panel>}
+                </Grid>
+                <Grid item xs={3}>
+                    {walletAddress && <Panel>
+                        <Reedem walletAddress={walletAddress}></Reedem>
+                    </Panel>}
+                </Grid>
+                <Grid item xs={walletAddress ? 9 : 12}>
+                    <Panel title={`Products (${total})`}>
+                        <ProductList walletAddress={walletAddress}></ProductList>
+                    </Panel>
+                </Grid>
+                <Grid item xs={3}>
+                    {walletAddress && <Panel title="My Products">
+                        <CustomerProductList walletAddress={walletAddress}></CustomerProductList>
+                    </Panel>}
+                </Grid>
+            </Grid>
         </>)
 }
 

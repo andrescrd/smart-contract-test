@@ -1,12 +1,10 @@
 import { List, ListItem, ListItemText } from "@material-ui/core";
-import React, { useContext } from "react";
+import React from "react";
 import useMarketContract from "../../hooks/market-contract";
 import useWeb3 from "../../hooks/web3";
-import WalletContext from "../../store/wallet.context";
 
-const CustomerProductList: React.FC = () => {
+const CustomerProductList: React.FC<{walletAddress: string}> = ({walletAddress}) => {
     const { convertToEth } = useWeb3();
-    const { walletAddress } = useContext(WalletContext);
     const { customerProducts } = useMarketContract(walletAddress);
 
     return (

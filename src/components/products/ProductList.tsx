@@ -1,14 +1,11 @@
-import { Button, Divider, List, ListItem, ListItemButton, ListItemText, ListSubheader } from "@material-ui/core";
-import React, { useContext } from "react";
+import { Button, List, ListItem, ListItemText } from "@material-ui/core";
+import React from "react";
 import useMarketContract from "../../hooks/market-contract";
 import useWeb3 from "../../hooks/web3";
-import WalletContext from "../../store/wallet.context";
 
-const ProductList: React.FC = () => {
+const ProductList: React.FC<{walletAddress: string}> = ({walletAddress}) => {
     const { convertToEth } = useWeb3();
-    const { total, products, buyProduct } = useMarketContract();
-    const { walletAddress } = useContext(WalletContext);
-
+    const { products, buyProduct } = useMarketContract();
 
     const buyProductHandler = (index: number, product: { price: number; }) => {
         buyProduct(index, walletAddress, product.price)
@@ -20,7 +17,7 @@ const ProductList: React.FC = () => {
                 {products.map((product, index) =>
                     <ListItem key={index}>
                         <ListItemText primary={product.name} secondary={`Cost: ${convertToEth(product.price)}`} />
-                        <Button variant="outlined" onClick={() => buyProductHandler(index, product)}>BUY</Button>
+                        {walletAddress && <Button variant="outlined" onClick={() => buyProductHandler(index, product)}>BUY</Button>}
                     </ListItem>)}
             </List>
         </>

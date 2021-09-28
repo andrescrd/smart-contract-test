@@ -62,9 +62,22 @@ const useWalletConnection = () => {
         }
     }
 
+    const onWalletDisconnect = () => {
+        if (window.ethereum) {
+            window.ethereum.on('disconnect', () => {
+                setWalletAddress("");
+                setWalletStatus(CONNECT_METAMASK);
+            });
+        } else {
+            setWalletAddress("");
+            setWalletStatus(MUST_INSTALL_METAMASK);
+        }
+    }
+
     useEffect(() => {
         configureWallet();
         onWalletChange();
+        onWalletDisconnect();
     }, []);
 
     return { walletAddress, walletStatus, connectWallet };
